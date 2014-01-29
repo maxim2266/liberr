@@ -1,0 +1,1 @@
+g++ -Wall -g test.cpp errors.cpp -o errors-dbg -DDEBUG -D_DEBUG

@@ -1,0 +1,1 @@
+g++ -Wall -O2 -march=native test.cpp errors.cpp -o errors-prod -Wl,--as-needed -ffunction-sections -fdata-sections -Wl,--gc-sections
