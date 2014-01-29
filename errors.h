@@ -18,11 +18,11 @@ struct text_arg_type
 #define CONST_STRING_ARG(s)	text_arg_type((s), sizeof(s) - 1)
 
 // exception type
-struct yv_exception_type : std::exception
+struct error_type : std::exception
 {
 	// std::exception required interface
-	explicit yv_exception_type(const std::string& msg);
-    virtual ~yv_exception_type() throw();
+	explicit error_type(const std::string& msg);
+    virtual ~error_type() throw();
 
     virtual const char* what() const throw();
 	
@@ -36,8 +36,8 @@ struct yv_exception_type : std::exception
 private:
 	std::string msg_;
 	
-	yv_exception_type(const text_arg_type prefix, const text_arg_type sep, const text_arg_type suffix);
-	yv_exception_type(const text_arg_type msg);
+	error_type(const text_arg_type prefix, const text_arg_type sep, const text_arg_type suffix);
+	error_type(const text_arg_type msg);
 	
 	static void reraise_impl(const text_arg_type prefix, const text_arg_type suffix) __attribute__((noreturn));
 };

@@ -25,13 +25,13 @@ catch(const std::exception& e)
 static
 void test_string()
 {
-	yv_exception_type::raise("simple string");
+	error_type::raise("simple string");
 }
 
 static
 void test_format()
 {
-	yv_exception_type::raise_fmt("Application name is \"%s\"", program_invocation_name);
+	error_type::raise_fmt("Application name is \"%s\"", program_invocation_name);
 }
 
 static
@@ -39,7 +39,7 @@ void test_errno()
 {
 	const int err = ENOSPC;
 	
-	yv_exception_type::raise_fmt_errno(err, "errno (%d)", err);
+	error_type::raise_fmt_errno(err, "errno (%d)", err);
 }
 
 static
@@ -51,7 +51,7 @@ void test_reraise()
 	}
 	catch(const std::exception& e)
 	{
-		yv_exception_type::reraise(e, "Rethrown, original exception:");
+		error_type::reraise(e, "Rethrown, original exception:");
 	}
 }
 
@@ -64,7 +64,7 @@ void test_reraise_fmt()
 	}
 	catch(const std::exception& e)
 	{
-		yv_exception_type::reraise_fmt(e, "%s: Rethrown again, original exception:", program_invocation_name);
+		error_type::reraise_fmt(e, "%s: Rethrown again, original exception:", program_invocation_name);
 	}
 }
 

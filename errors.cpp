@@ -59,15 +59,15 @@ size_t format_message(char* buff, const char* fmt, va_list args)
 }
 
 // exception type
-yv_exception_type::yv_exception_type(const std::string& msg) 
+error_type::error_type(const std::string& msg) 
 : msg_(msg)
 {}
 
-yv_exception_type::yv_exception_type(const text_arg_type msg)
+error_type::error_type(const text_arg_type msg)
 : msg_(msg.str, msg.size)
 {}
 
-yv_exception_type::yv_exception_type(const text_arg_type prefix, const text_arg_type sep, const text_arg_type suffix)
+error_type::error_type(const text_arg_type prefix, const text_arg_type sep, const text_arg_type suffix)
 {
 	const size_t n = prefix.size + sep.size + suffix.size;
 	
@@ -78,37 +78,37 @@ yv_exception_type::yv_exception_type(const text_arg_type prefix, const text_arg_
 	}
 }
 
-yv_exception_type::~yv_exception_type() throw()
+error_type::~error_type() throw()
 {}
 
-const char* yv_exception_type::what() const throw()
+const char* error_type::what() const throw()
 {
 	return msg_.c_str();
 }
 
-void yv_exception_type::reraise_impl(const text_arg_type prefix, const text_arg_type suffix)
+void error_type::reraise_impl(const text_arg_type prefix, const text_arg_type suffix)
 {
 	if(suffix.size == 0)
-		yv_exception_type::raise(prefix);
+		error_type::raise(prefix);
 	else
-		throw yv_exception_type(prefix, CONST_STRING_ARG("\n\t"), suffix);
+		throw error_type(prefix, CONST_STRING_ARG("\n\t"), suffix);
 }
 
-void yv_exception_type::raise(const text_arg_type msg)
+void error_type::raise(const text_arg_type msg)
 {
-	throw yv_exception_type(msg);
+	throw error_type(msg);
 }
 
-void yv_exception_type::raise_fmt(const char* fmt, ...)
+void error_type::raise_fmt(const char* fmt, ...)
 {
 	char buff[MSG_BUFF_SIZE];
 	va_list args;
 	
 	va_start(args, fmt);
-	yv_exception_type::raise(text_arg_type(buff, format_message(buff, fmt, args)));
+	error_type::raise(text_arg_type(buff, format_message(buff, fmt, args)));
 }
 
-void yv_exception_type::raise_fmt_errno(int err, const char* fmt, ...)
+void error_type::raise_fmt_errno(int err, const char* fmt, ...)
 {
 	char buff[MSG_BUFF_SIZE];
 	va_list args;
@@ -118,17 +118,17 @@ void yv_exception_type::raise_fmt_errno(int err, const char* fmt, ...)
 	const text_arg_type prefix(buff, format_message(buff, fmt, args));
 	
 	if(err == 0)
-		yv_exception_type::raise(prefix);
+		error_type::raise(prefix);
 	else
-		throw yv_exception_type(prefix, CONST_STRING_ARG(": "), errno_text(err));
+		throw error_type(prefix, CONST_STRING_ARG(": "), errno_text(err));
 }
 
-void yv_exception_type::reraise(const std::exception& e, const text_arg_type prefix)
+void error_type::reraise(const std::exception& e, const text_arg_type prefix)
 {
 	reraise_impl(prefix, e.what());
 }
 
-void yv_exception_type::reraise_fmt(const std::exception& e, const char* fmt, ...)
+void error_type::reraise_fmt(const std::exception& e, const char* fmt, ...)
 {
 	char buff[MSG_BUFF_SIZE];
 	va_list args;
