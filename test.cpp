@@ -61,7 +61,7 @@ static
 void test_errno()
 {
 	const int err = ENOSPC;
-	
+
 	error_type::raise_fmt_errno(err, "errno (%d)", err);
 }
 
@@ -98,7 +98,7 @@ int main()
 	ASSERT_FAILED(test_format);
 	ASSERT_FAILED(test_errno);
 	ASSERT_FAILED(test_reraise_fmt);
-	
+
 	puts("All passed.");
 	return 0;
 }
