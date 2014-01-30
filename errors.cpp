@@ -84,10 +84,6 @@ size_t format_message(char* buff, const char* fmt, va_list args)
 }
 
 // exception type
-error_type::error_type(const std::string& msg)
-: msg_(msg)
-{}
-
 error_type::error_type(const text_arg_type msg)
 : msg_(msg.str, msg.size)
 {}

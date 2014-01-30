@@ -31,7 +31,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 struct error_type : std::exception
 {
 	// std::exception required interface
-	explicit error_type(const std::string& msg);
     virtual ~error_type() throw();
 
     virtual const char* what() const throw();
