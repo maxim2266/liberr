@@ -26,6 +26,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #include <errno.h>
 #include <error.h>
 #include <stdio.h>
+#include <stdexcept>
 
 // test framework :)
 static
@@ -91,6 +92,12 @@ void test_reraise_fmt()
 	}
 }
 
+static
+void text_throw()   // for code size comparison only: objdump -d -C -S ./errors-prod > dasm
+{
+    throw std::runtime_error("simple string");
+}
+
 // entry point
 int main()
 {
@@ -98,6 +105,7 @@ int main()
 	ASSERT_FAILED(test_format);
 	ASSERT_FAILED(test_errno);
 	ASSERT_FAILED(test_reraise_fmt);
+	ASSERT_FAILED(text_throw);
 
 	puts("All passed.");
 	return 0;
